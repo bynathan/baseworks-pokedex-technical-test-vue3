@@ -50,7 +50,7 @@
     import { defineComponent, ref, onMounted, computed, watch } from 'vue';
     import Pokemon from '../components/Pokemon.vue';
     import Header from '../components/Header.vue';
-    import { isLoading, setLoading } from '../global/LoadingState'; // Importando setLoading
+    import { isLoading, setLoading } from '../global/LoadingState';
 
     export default defineComponent({
         name: 'PokemonList',
@@ -67,7 +67,7 @@
             const selectedType = ref<string | null>(null);
 
             onMounted(async () => {
-                setLoading(true); // Ativa o loading antes da requisição
+                setLoading(true);
 
                 try {
                     const quantityResponse = await fetch(`https://pokeapi.co/api/v2/pokemon`);
@@ -76,21 +76,19 @@
                     const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${quantityData.count}`);
                     const data = await response.json();
 
-                    // Carrega detalhes de cada Pokémon
                     const detailsPromises = data.results.map(async (pokemon: { name: string; url: string }) => {
                         const detailResponse = await fetch(pokemon.url);
                         const details = await detailResponse.json();
                         return { ...pokemon, details };
                     });
 
-                    // Espera a resolução de todas as promessas antes de atualizar a lista
                     pokemonList.value = await Promise.all(detailsPromises);
                     await fetchPokemonTypes();
                 } catch (error) {
                     console.error('Erro ao carregar Pokémon:', error);
-                    alert('Erro ao carregar Pokémon. Tente novamente mais tarde.'); // Informa o usuário
+                    alert('Erro ao carregar Pokémon. Tente novamente mais tarde.');
                 } finally {
-                    setLoading(false); // Desativa o loading após a requisição
+                    setLoading(false);
                 }
             });
 
@@ -105,7 +103,7 @@
                     }
                 } catch (error) {
                     console.error(error);
-                    alert('Erro ao buscar tipos de Pokémon. Tente novamente mais tarde.'); // Informa o usuário
+                    alert('Erro ao buscar tipos de Pokémon. Tente novamente mais tarde.');
                 }
             };
 
@@ -162,7 +160,7 @@
                 types,
                 selectedType,
                 toggleType,
-                isLoading // Adiciona isLoading ao retorno
+                isLoading
             };
         },
     });
