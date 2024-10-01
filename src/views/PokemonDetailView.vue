@@ -283,7 +283,7 @@
             padding: 0 15px;
             &__info{
                 padding: 25px 35px 20px;
-                img{
+                .pokeimage{
                     margin: 0 0 15px 0;
                     position: unset;
                     width: 150px;
